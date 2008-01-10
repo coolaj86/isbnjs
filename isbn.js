@@ -2,7 +2,7 @@
 // isbn.js
 //
 // The MIT License
-// Copyright (c) 2007 hetappi <hetappi.pm@gmail.com>
+// Copyright (c) 2007 hetappi <hetappi.pm (a) gmail.com>
 //
 var ISBN  = {
   VERSION: '0.01',

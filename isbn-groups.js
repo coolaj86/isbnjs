@@ -5,7 +5,7 @@ if (typeof ISBN == 'undefined')
 
 // referred: http://www.isbn-international.org/converter/ranges.htm
 // frequently, you need to update the following table. what a nice specification!
-ISBN.GROUPS_VERSION = '20080104';
+ISBN.GROUPS_VERSION = '20080130';
 ISBN.GROUPS = {
   '0': {
     'name': 'English speaking area',
@@ -21,7 +21,7 @@ ISBN.GROUPS = {
   },
   '3': {
     'name': 'German speaking area',
-    'ranges': [['00', '02'], ['030', '033'], ['0340', '0369'], ['03700', '03999'], ['04', '19'], ['200', '699'], ['7000', '8499'], ['85000', '89999'], ['900000', '949999'], ['9500000', '9999999']]
+    'ranges': [['00', '02'], ['030', '033'], ['0340', '0369'], ['03700', '03999'], ['04', '19'], ['200', '699'], ['7000', '8499'], ['85000', '89999'], ['900000', '949999'], ['9500000', '9539999'], ['95400', '96999'], ['9700000', '9899999'], ['99000', '99499'], ['99500', '99999']]
   },
   '4': {
     'name': 'Japan',
@@ -122,6 +122,10 @@ ISBN.GROUPS = {
   '93': {
     'name': 'India - no ranges fixed yet',
     'ranges': []
+  },
+  '94': {
+    'name': 'Netherlands',
+    'ranges': [['000', '599'], ['6000', '8999'], ['90000', '99999']]
   },
   '950': {
     'name': 'Argentina',
@@ -282,6 +286,14 @@ ISBN.GROUPS = {
   '989': {
     'name': 'Portugal',
     'ranges': [['0', '1'], ['20', '54'], ['550', '799'], ['8000', '9499'], ['95000', '99999']]
+  },
+  '9935': {
+    'name': 'Iceland',
+    'ranges': [['0', '0'], ['10', '39'], ['400', '899'], ['9000', '9999']]
+  },
+  '9936': {
+    'name': 'Afghanistan',
+    'ranges': [['0', '1'], ['20', '39'], ['400', '799'], ['8000', '9999']]
   },
   '9937': {
     'name': 'Nepal',

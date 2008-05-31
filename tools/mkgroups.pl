@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use LWP::UserAgent;
-use JSON qw/objToJson/;
+use JSON;
 
 my $resp = LWP::UserAgent->new(env_proxy => 1)->get(
   'http://www.isbn-international.org/converter/ranges.js');
@@ -21,13 +21,14 @@ $areas->{$1} = {
   }
   while ($js =~ /gi\.area(\d+)\.text\s*=\s*"(.+)";?\ngi\.area\d+\.pubrange="([\d\-;]*)";?/g);
 
-my $g = objToJson($areas, {autoconv => 0, keysort => 1, singlequote => 1});
+my $json = JSON->new;
+my $g = $json->canonical->encode($areas);
 $g =~ s/^{/$&\n  /g;
 $g =~ s/}}$/\n  }\n}/g;
-$g =~ s/'ranges'/\n    $&/g;
+$g =~ s/"ranges"/\n    $&/g;
 $g =~ s/:{/$&\n    /g;
 $g =~ s/:/$& /g;
-$g =~ s/,([\['])/, $1/g;
+$g =~ s/,([\["])/, $1/g;
 $g =~ s/},/\n  $&\n /g;
 
 print << "DATA"

@@ -84,18 +84,18 @@ ISBN._isbn.prototype = {
     var ret =
       val.match(/^\d{9}[\dX]$/) ?
         this._fill(
-          this._merge({soruce: val, isValid: true, isIsbn10: true}, this._split(val))) :
+          this._merge({source: val, isValid: true, isIsbn10: true, isIsbn13: false}, this._split(val))) :
       val.length == 13 && val.match(/^(\d+)-(\d+)-(\d+)-([\dX])$/) ?
         this._fill({
-          source: val, isValid: true, isIsbn10: true, group: RegExp.$1, publisher: RegExp.$2,
+          source: val, isValid: true, isIsbn10: true, isIsbn13: false, group: RegExp.$1, publisher: RegExp.$2,
           article: RegExp.$3, check: RegExp.$4}) :
       val.match(/^(978|979)(\d{9}[\dX]$)/) ?
         this._fill(
-          this._merge({soruce: val, isValid: true, isIsbn13: true, prefix: RegExp.$1},
+          this._merge({source: val, isValid: true, isIsbn10: false, isIsbn13: true, prefix: RegExp.$1},
           this._split(RegExp.$2))) :
       val.length == 17 && val.match(/^(978|979)-(\d+)-(\d+)-(\d+)-([\dX])$/) ?
         this._fill({
-          source: val, isValid: true, isIsbn13: true, prefix: RegExp.$1, group: RegExp.$2,
+          source: val, isValid: true, isIsbn10: false, isIsbn13: true, prefix: RegExp.$1, group: RegExp.$2,
           publisher: RegExp.$3, article: RegExp.$4, check: RegExp.$5}) :
         null;
     return ret || {source: val, isValid: false};

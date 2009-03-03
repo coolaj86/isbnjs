@@ -19,7 +19,7 @@ $areas->{$1} = {
     name => $2,
     ranges => [map { [split /-/] } split /;/, $3]
   }
-  while ($js =~ /gi\.area(\d+)\.text\s*=\s*"(.+)";?\ngi\.area\d+\.pubrange="([\d\-;]*)";?/g);
+  while ($js =~ /gi\.area(\d+)\.text\s*=\s*"(.+)";?\ngi\.area\d+\.pubrange\s*=\s*"([\d\-;]*)";?/g);
 
 my $json = JSON->new;
 my $g = $json->canonical->encode($areas);

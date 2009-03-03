@@ -5,7 +5,7 @@ if (typeof ISBN == 'undefined')
 
 // referred: http://www.isbn-international.org/converter/ranges.htm
 // frequently, you need to update the following table. what a nice specification!
-ISBN.GROUPS_VERSION = '20090129';
+ISBN.GROUPS_VERSION = '20090226';
 ISBN.GROUPS = {
   "0": {
     "name": "English speaking area",
@@ -70,6 +70,22 @@ ISBN.GROUPS = {
   "609": {
     "name": "Lithuania",
     "ranges": [["00", "39"], ["400", "799"], ["8000", "9499"], ["95000", "99999"]]
+  },
+  "610": {
+    "name": "Thailand",
+    "ranges": [["00", "19"], ["200", "699"], ["7000", "8999"], ["90000", "99999"]]
+  },
+  "611": {
+    "name": "Ukraine",
+    "ranges": [["00", "49"], ["500", "699"], ["7000", "8999"], ["90000", "99999"]]
+  },
+  "612": {
+    "name": "Peru",
+    "ranges": [["00", "29"], ["300", "399"], ["4000", "4499"], ["45000", "49999"], ["50", "99"]]
+  },
+  "613": {
+    "name": "Mauritius",
+    "ranges": [["0", "9"]]
   },
   "7": {
     "name": "China, People's Republic",

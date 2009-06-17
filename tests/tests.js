@@ -6,7 +6,7 @@
 var t = new Test.Tiny;
 var isbn10a = ISBN.parse('4873113369');
 var isbn10b = ISBN.parse('1933988037');
-var isbn13a = ISBN.parse('978-4-87311-336-1');
+var isbn13a = ISBN.parse('978-4-87311-336-4');
 var isbn13b = ISBN.parse('9781590597279');
 t.test([
   ['t', isbn10a],
@@ -43,12 +43,12 @@ t.test([
   ['eq', isbn13a.asIsbn13(), '9784873113364'],
   ['eq', isbn13a.asIsbn13(true), '978-4-87311-336-4'],
   //
-  ['eq', isbn13a.codes.source, '978-4-87311-336-1'],
+  ['eq', isbn13a.codes.source, '978-4-87311-336-4'],
   ['eq', isbn13a.codes.prefix, '978'],
   ['eq', isbn13a.codes.group, '4'],
   ['eq', isbn13a.codes.publisher, '87311'],
   ['eq', isbn13a.codes.article, '336'],
-  ['eq', isbn13a.codes.check, '1'],
+  ['eq', isbn13a.codes.check, '4'],
   ['eq', isbn13a.codes.check10, '9'],
   ['eq', isbn13a.codes.check13, '4'],
   ['eq', isbn13a.codes.groupname, 'Japan'],

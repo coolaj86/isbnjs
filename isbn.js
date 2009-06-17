@@ -98,7 +98,11 @@ ISBN._isbn.prototype = {
           source: val, isValid: true, isIsbn10: false, isIsbn13: true, prefix: RegExp.$1, group: RegExp.$2,
           publisher: RegExp.$3, article: RegExp.$4, check: RegExp.$5}) :
         null;
-    return ret || {source: val, isValid: false};
+
+    if (!ret)
+      return {source: val, isValid: false};
+
+    return this._merge(ret, {isValid: ret.check == (ret.isIsbn13 ? ret.check13 : ret.check10)});
   },
 
   _split: function(isbn) {

@@ -12,14 +12,14 @@ $resp->is_success
   or die $resp->message;
 
 my $js = $resp->content;
-my $v = sprintf '%04d%02d%02d', reverse $js =~ /-----\n(\d{1,2}).(\d{1,2}).(\d{4});/;
+my $v = sprintf '%04d%02d%02d', reverse $js =~ /-----\r?\n(\d{1,2}).(\d{1,2}).(\d{4});/;
 
 my $areas = {};
 $areas->{$1} = {
     name => $2,
     ranges => [map { [split /-/] } split /;/, $3]
   }
-  while ($js =~ /gi\.area(\d+)\.text\s*=\s*"(.+)";?\ngi\.area\d+\.pubrange\s*=\s*"([\d\-;]*)";?/g);
+  while ($js =~ /gi\.area(\d+)\.text\s*=\s*"(.+)";?\r?\ngi\.area\d+\.pubrange\s*=\s*"([\d\-;]*)";?/g);
 
 my $json = JSON->new;
 my $g = $json->canonical->encode($areas);

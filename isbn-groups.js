@@ -5,7 +5,7 @@ if (typeof ISBN == 'undefined')
 
 // referred: http://www.isbn-international.org/converter/ranges.htm
 // frequently, you need to update the following table. what a nice specification!
-ISBN.GROUPS_VERSION = '20090226';
+ISBN.GROUPS_VERSION = '20090504';
 ISBN.GROUPS = {
   "0": {
     "name": "English speaking area",
@@ -86,6 +86,14 @@ ISBN.GROUPS = {
   "613": {
     "name": "Mauritius",
     "ranges": [["0", "9"]]
+  },
+  "614": {
+    "name": "Lebanon",
+    "ranges": [["00", "39"], ["400", "799"], ["8000", "9499"], ["95000", "99999"]]
+  },
+  "615": {
+    "name": "Hungary",
+    "ranges": [["00", "09"], ["100", "499"], ["5000", "7999"], ["80000", "89999"]]
   },
   "7": {
     "name": "China, People's Republic",
@@ -277,7 +285,7 @@ ISBN.GROUPS = {
   },
   "981": {
     "name": "Singapore",
-    "ranges": [["00", "11"], ["120", "299"], ["3000", "9999"]]
+    "ranges": [["00", "11"], ["1200", "1999"], ["200", "289"], ["2900", "9999"]]
   },
   "982": {
     "name": "South Pacific",
@@ -778,5 +786,9 @@ ISBN.GROUPS = {
   "99962": {
     "name": "Mongolia",
     "ranges": [["0", "4"], ["50", "79"], ["800", "999"]]
+  },
+  "99963": {
+    "name": "Cambodia",
+    "ranges": [["00", "49"], ["500", "999"]]
   }
 };

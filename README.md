@@ -6,7 +6,7 @@ An ISBN JavaScript Library
 Examples
 ====
 
-[ISBN Parser](http://coolaj86.github.com/isbnjs/)
+[ISBN Parser Example](http://coolaj86.github.com/isbnjs/)
 
     var isbn10a = ISBN.parse('4873113369');
     isbn10a.isIsbn10();                       // true

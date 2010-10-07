@@ -1,10 +1,7 @@
-//
-// isbn.js
-//
-// The MIT License
-// Copyright (c) 2007 hetappi <hetappi.pm (a) gmail.com>
-//
-var ISBN  = {
+"use strict";
+var ISBN;
+(function () {
+ISBN  = {
   VERSION: '0.01',
   GROUPS: {
     '0': {
@@ -21,12 +18,12 @@ var ISBN  = {
     }
   },
 
-  _isbn: function () {
-    this._initialize.apply(this, arguments);
+  isbn: function () {
+    this.initialize.apply(this, arguments);
   },
 
   parse: function(val, groups) {
-    var me = new ISBN._isbn(val, groups ? groups : ISBN.GROUPS);
+    var me = new ISBN.isbn(val, groups ? groups : ISBN.GROUPS);
     return me.isValid() ? me : null;
   },
 
@@ -46,7 +43,7 @@ var ISBN  = {
   }
 };
 
-ISBN._isbn.prototype = {
+ISBN.isbn.prototype = {
   isValid: function() {
     return this.codes && this.codes.isValid;
   },
@@ -67,133 +64,159 @@ ISBN._isbn.prototype = {
     return this.isValid() ? hyphen ? this.codes.isbn13h : this.codes.isbn13 : null;
   },
 
-  _initialize: function(val, groups) {
+  initialize: function(val, groups) {
     this.groups = groups;
-    this.codes = this._parse(val);
+    this.codes = this.parse(val);
   },
 
-  _merge: function(lobj, robj) {
-    if (!lobj || !robj)
+  merge: function(lobj, robj) {
+    var key;
+    if (!lobj || !robj) {
       return null;
-    for (var key in robj)
-      lobj[key] = robj[key];
+    }
+    for (key in robj) {
+      if (robj.hasOwnProperty(key)) {
+        lobj[key] = robj[key];
+      }
+    }
     return lobj;
   },
 
-  _parse: function(val) {
-    var ret =
+  parse: function(val) {
+    var ret;
+    // correct for misplaced hyphens
+    // val = val.replace(/ -/,'');
+    ret =
       val.match(/^\d{9}[\dX]$/) ?
-        this._fill(
-          this._merge({source: val, isValid: true, isIsbn10: true, isIsbn13: false}, this._split(val))) :
-      val.length == 13 && val.match(/^(\d+)-(\d+)-(\d+)-([\dX])$/) ?
-        this._fill({
+        this.fill(
+          this.merge({source: val, isValid: true, isIsbn10: true, isIsbn13: false}, this.split(val))) :
+      val.length === 13 && val.match(/^(\d+)-(\d+)-(\d+)-([\dX])$/) ?
+        this.fill({
           source: val, isValid: true, isIsbn10: true, isIsbn13: false, group: RegExp.$1, publisher: RegExp.$2,
           article: RegExp.$3, check: RegExp.$4}) :
       val.match(/^(978|979)(\d{9}[\dX]$)/) ?
-        this._fill(
-          this._merge({source: val, isValid: true, isIsbn10: false, isIsbn13: true, prefix: RegExp.$1},
-          this._split(RegExp.$2))) :
-      val.length == 17 && val.match(/^(978|979)-(\d+)-(\d+)-(\d+)-([\dX])$/) ?
-        this._fill({
+        this.fill(
+          this.merge({source: val, isValid: true, isIsbn10: false, isIsbn13: true, prefix: RegExp.$1},
+          this.split(RegExp.$2))) :
+      val.length === 17 && val.match(/^(978|979)-(\d+)-(\d+)-(\d+)-([\dX])$/) ?
+        this.fill({
           source: val, isValid: true, isIsbn10: false, isIsbn13: true, prefix: RegExp.$1, group: RegExp.$2,
           publisher: RegExp.$3, article: RegExp.$4, check: RegExp.$5}) :
         null;
 
-    if (!ret)
+    if (!ret) {
       return {source: val, isValid: false};
+    }
 
-    return this._merge(ret, {isValid: ret.check == (ret.isIsbn13 ? ret.check13 : ret.check10)});
+    return this.merge(ret, {isValid: ret.check === (ret.isIsbn13 ? ret.check13 : ret.check10)});
   },
 
-  _split: function(isbn) {
+  split: function(isbn) {
     return (
       !isbn ?
         null :
-      isbn.length == 13 ?
-        this._merge(this._split(isbn.substr(3)), {prefix: isbn.substr(0, 3)}) :
-      isbn.length == 10 ?
-        this._splitToObject(isbn) :
+      isbn.length === 13 ?
+        this.merge(this.split(isbn.substr(3)), {prefix: isbn.substr(0, 3)}) :
+      isbn.length === 10 ?
+        this.splitToObject(isbn) :
         null);
   },
 
-  _splitToArray: function(isbn10) {
-    var rec = this._getGroupRecord(isbn10);
-    if (!rec)
+  splitToArray: function(isbn10) {
+    var rec, key, rest, i, m;
+    rec = this.getGroupRecord(isbn10);
+    if (!rec) {
       return null;
+    }
 
-    for (var key, i = 0, m = rec.record.ranges.length; i < m; ++i) {
+    for (key, i = 0, m = rec.record.ranges.length; i < m; i += 1) {
       key = rec.rest.substr(0, rec.record.ranges[i][0].length);
       if (rec.record.ranges[i][0] <= key && rec.record.ranges[i][1] >= key) {
-        var rest = rec.rest.substr(key.length);
-        return [
-          rec.group, key, rest.substr(0, rest.length - 1), rest.charAt(rest.length - 1)];
+        rest = rec.rest.substr(key.length);
+        return [rec.group, key, rest.substr(0, rest.length - 1), rest.charAt(rest.length - 1)];
       }
     }
     return null;
   },
 
-  _splitToObject: function(isbn10) {
-    var a = this._splitToArray(isbn10);
-    if (!a || a.length != 4)
+  splitToObject: function(isbn10) {
+    var a = this.splitToArray(isbn10);
+    if (!a || a.length !== 4) {
       return null;
+    }
     return {group: a[0], publisher: a[1], article: a[2], check: a[3]};
   },
 
-  _fill: function(codes) {
-    if (!codes)
-      return null;
+  fill: function(codes) {
+    var rec, prefix, ck10, ck13, parts13, parts10;
 
-    var rec = this.groups[codes.group];
-    if (!rec)
+    if (!codes) {
       return null;
+    }
 
-    var prefix = codes.prefix ? codes.prefix : '978';
-    var ck10 = this._calcCheckDigit([
+    rec = this.groups[codes.group];
+    if (!rec) {
+      return null;
+    }
+
+    prefix = codes.prefix ? codes.prefix : '978';
+    ck10 = this.calcCheckDigit([
       codes.group, codes.publisher, codes.article].join(''));
-    if (!ck10)
+    if (!ck10) {
       return null;
+    }
 
-    var ck13 = this._calcCheckDigit([
-      prefix, codes.group, codes.publisher, codes.article].join(''));
-    if (!ck13)
+    ck13 = this.calcCheckDigit([prefix, codes.group, codes.publisher, codes.article].join(''));
+    if (!ck13) {
       return null;
+    }
 
-    var parts13 = [prefix, codes.group, codes.publisher, codes.article, ck13];
-    this._merge(codes, {
-      isbn13: parts13.join(''), isbn13h: parts13.join('-'),
-      check10: ck10, check13: ck13, groupname: rec.name});
+    parts13 = [prefix, codes.group, codes.publisher, codes.article, ck13];
+    this.merge(codes, {
+      isbn13: parts13.join(''),
+      isbn13h: parts13.join('-'),
+      check10: ck10,
+      check13: ck13,
+      groupname: rec.name
+    });
 
-    if (prefix == '978') {
-      var parts10 = [codes.group, codes.publisher, codes.article, ck10];
-      this._merge(codes, {isbn10: parts10.join(''), isbn10h: parts10.join('-')});
+    if (prefix === '978') {
+      parts10 = [codes.group, codes.publisher, codes.article, ck10];
+      this.merge(codes, {isbn10: parts10.join(''), isbn10h: parts10.join('-')});
     }
 
     return codes;
   },
 
-  _getGroupRecord: function(isbn10) {
-    for (var key in this.groups) {
-      if (isbn10.match('^' + key + '(.+)'))
+  getGroupRecord: function(isbn10) {
+    var key;
+    for (key in this.groups) {
+      if (isbn10.match('^' + key + '(.+)')) {
         return {group: key, record: this.groups[key], rest: RegExp.$1};
+      }
     }
     return null;
   },
 
-  _calcCheckDigit: function(isbn) {
+  calcCheckDigit: function(isbn) {
+    var c, n;
     if (isbn.match(/^\d{9}[\dX]?$/)) {
-      var c = 0;
-      for (var n = 0; n < 9; ++n)
+      c = 0;
+      for (n = 0; n < 9; n += 1) {
         c += (10 - n) * isbn.charAt(n);
+      }
       c = (11 - c % 11) % 11;
-      return c == 10 ? 'X' : String(c);
+      return c === 10 ? 'X' : String(c);
 
     } else if (isbn.match(/(?:978|979)\d{9}[\dX]?/)) {
-      var c = 0;
-      for (var n = 0; n < 12; n += 2)
+      c = 0;
+      for (n = 0; n < 12; n += 2) {
         c += Number(isbn.charAt(n)) + 3 * isbn.charAt(n + 1);
+      }
       return String((10 - c % 10) % 10);
     }
 
     return null;
   }
 };
+}());

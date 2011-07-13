@@ -1,7 +1,11 @@
-"use strict";
-var ISBN;
+module = module || window;
+exports = exports || window;
+module.exports = exports;
+
 (function () {
-ISBN  = {
+  "use strict";
+
+var ISBN = {
   VERSION: '0.01',
   GROUPS: {
     '0': {
@@ -219,4 +223,6 @@ ISBN.isbn.prototype = {
     return null;
   }
 };
+
+  exports.ISBN = ISBN;
 }());

@@ -3,6 +3,12 @@ isbnjs
 
 An ISBN JavaScript Library
 
+    npm install isbn
+
+    ender build isbn
+
+    var ISBN = require('isbn');
+
 Examples
 ====
 

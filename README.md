@@ -7,7 +7,7 @@ An ISBN JavaScript Library
 
     ender build isbn
 
-    var ISBN = require('isbn');
+    var ISBN = require('isbn').ISBN;
 
 Examples
 ====

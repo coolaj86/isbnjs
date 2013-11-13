@@ -1,7 +1,3 @@
-module = module || window;
-exports = exports || window;
-module.exports = exports;
-
 (function () {
   "use strict";
 
@@ -88,6 +84,10 @@ ISBN.isbn.prototype = {
 
   parse: function(val) {
     var ret;
+
+    // coerce ISBN to string
+    val += '';
+
     // correct for misplaced hyphens
     // val = val.replace(/ -/,'');
     ret =
@@ -223,6 +223,7 @@ ISBN.isbn.prototype = {
     return null;
   }
 };
-
+  
+  var exports = window === void 0 ? module.exports : window;
   exports.ISBN = ISBN;
 }());

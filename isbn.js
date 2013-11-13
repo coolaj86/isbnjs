@@ -84,6 +84,10 @@ ISBN.isbn.prototype = {
 
   parse: function(val) {
     var ret;
+
+    // coerce ISBN to string
+    val += '';
+
     // correct for misplaced hyphens
     // val = val.replace(/ -/,'');
     ret =

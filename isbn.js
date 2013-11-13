@@ -1,7 +1,3 @@
-module = module || window;
-exports = exports || window;
-module.exports = exports;
-
 (function () {
   "use strict";
 
@@ -223,6 +219,7 @@ ISBN.isbn.prototype = {
     return null;
   }
 };
-
+  
+  var exports = window === void 0 ? module.exports : window;
   exports.ISBN = ISBN;
 }());

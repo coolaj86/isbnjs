@@ -224,6 +224,6 @@ ISBN.isbn.prototype = {
   }
 };
   
-  var exports = window === void 0 ? module.exports : window;
+  var exports = typeof window === 'object' && window ? window: module.exports;
   exports.ISBN = ISBN;
 }());

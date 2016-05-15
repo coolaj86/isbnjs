@@ -2,7 +2,7 @@
   "author": "Hetappi <hetappi.pm@gmail.com> (http://twitter.com/#!/hetappi)",
   "name": "isbn",
   "description": "ISBN parsing, validation, and formatting utilities",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "homepage": "http://isbnjs.googlecode.com",
   "repository": {
     "type": "git",

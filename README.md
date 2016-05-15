@@ -9,6 +9,10 @@ An ISBN JavaScript Library
 
     var ISBN = require('isbn').ISBN;
 
+Now supports Bower 
+
+    bower install isbn
+
 Examples
 ====
 

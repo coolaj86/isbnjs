@@ -1,6 +1,8 @@
 (function () {
   "use strict";
 
+
+
 var ISBN = {
   VERSION: '0.01',
   GROUPS: {
@@ -223,7 +225,11 @@ ISBN.isbn.prototype = {
     return null;
   }
 };
-  
-  var exports = typeof window === 'object' && window ? window: module.exports;
-  exports.ISBN = ISBN;
+
+var G = require('./isbn-groups')
+Object.assign(ISBN, G.ISBN)
+
+//   var exports = typeof window === 'object' && window ? window: module.exports;
+  module.exports = {ISBN};
 }());
+

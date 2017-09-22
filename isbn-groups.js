@@ -889,4 +889,6 @@ ISBN.GROUPS = {
     "ranges": [["0", "1"], ["20", "59"], ["600", "799"]]
   }
 };
+// var exports = typeof window === 'object' && window ? window: module.exports;
+module.exports.ISBN = ISBN;
 }());
